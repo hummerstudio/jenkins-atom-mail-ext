@@ -1,0 +1,11 @@
+{
+  "name": "Email (tokens)",
+  "summary": "email-ext 的令牌能力：正文里引用构建日志、失败用例、变更，再交给 curl 发信。",
+  "author": "hummerstudio",
+  "license": "MIT",
+  "tags": [
+    "official-port",
+    "email-ext"
+  ],
+  "homepage": "https://github.com/hummerstudio/jenkins-atom-mail-ext"
+}

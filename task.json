@@ -1,0 +1,100 @@
+{
+  "atomCode": "mail-ext",
+  "name": "Email (tokens)",
+  "version": "1.0.0",
+  "description": "email-ext 的令牌能力：正文里引用构建日志、失败用例、变更，再交给 curl 发信。",
+  "execution": {
+    "packagePath": "mail-ext.jar",
+    "language": "java",
+    "target": "$atom_java_path -cp mail-ext.jar com.jenkinschina.atom.sdk.AtomRunner"
+  },
+  "input": {
+    "to": {
+      "label": "收件人（逗号分隔）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "from": {
+      "label": "发件人",
+      "type": "vuex-input",
+      "default": "jenkins@localhost"
+    },
+    "subject": {
+      "label": "主题（支持 $PROJECT_NAME 等令牌）",
+      "type": "vuex-input",
+      "default": "[Jenkins] $PROJECT_NAME #$BUILD_NUMBER - $BUILD_STATUS"
+    },
+    "body": {
+      "label": "正文（$BUILD_LOG_EXCERPT / $FAILED_TESTS / $CHANGES）",
+      "type": "textarea",
+      "default": "Build: $BUILD_URL\nResult: $BUILD_STATUS\n\n$BUILD_LOG_EXCERPT\n\n$FAILED_TESTS"
+    },
+    "attachments": {
+      "label": "附件（逗号分隔，workspace 相对）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "html": {
+      "label": "正文是 HTML",
+      "type": "checkbox",
+      "default": "false"
+    },
+    "smtpHost": {
+      "label": "SMTP 主机",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "smtpPort": {
+      "label": "SMTP 端口",
+      "type": "vuex-input",
+      "default": "587"
+    },
+    "tls": {
+      "label": "使用 TLS",
+      "type": "checkbox",
+      "default": "true"
+    },
+    "smtpUser": {
+      "label": "SMTP 用户名",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "smtpPassword": {
+      "label": "SMTP 密码（凭据 id）",
+      "type": "vuex-input",
+      "default": "",
+      "isSensitive": true
+    },
+    "dryRun": {
+      "label": "只生成 .eml 不发信",
+      "type": "checkbox",
+      "default": "false"
+    }
+  },
+  "output": {
+    "recipients": {
+      "type": "string",
+      "description": "收件人"
+    },
+    "subject": {
+      "type": "string",
+      "description": "主题"
+    },
+    "emlFile": {
+      "type": "artifact",
+      "description": "生成的邮件"
+    }
+  },
+  "x-jenkins": {
+    "protocol": "jenkins-1",
+    "requires": {
+      "runner": ">=0.4.0"
+    },
+    "context": [
+      "log"
+    ],
+    "secrets": {
+      "smtpPassword": ""
+    }
+  }
+}
